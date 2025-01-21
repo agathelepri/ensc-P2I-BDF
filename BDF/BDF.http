@@ -1,0 +1,6 @@
+@BDF_HostAddress = http://localhost:5166
+
+GET {{BDF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
