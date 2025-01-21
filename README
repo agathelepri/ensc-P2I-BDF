@@ -1,0 +1,43 @@
+@startuml
+class Eleve {
++ Id
++ Nom
++ Prenom
++ Login
++ MdP
++ IdPromotion
++ IdFamille
++ Photo
++ IdEleveParrain
+}
+class Promotion {
++ Id
++ Annee
+}
+class Famille {
++ Id
++ CouleurHexa
++ Nom
+}
+class Voeux {
++ Id
++ IdEleve
++ IdPromotion
++ NumVoeux
++ IdEleveChoisi
+}
+class Questionnaire {
++ Id
++ Question1
++ Question2
++ Question3
++ IdEleve
+}
+
+Eleve "*" -- "1" Promotion
+Eleve "*" -- "1" Famille
+Eleve "1" -- "*" Voeux
+Promotion "1" -- "*" Voeux
+Eleve "1" -- "1" Questionnaire
+Eleve "*" -- "*" Eleve
+@enduml
