@@ -1,4 +1,4 @@
-public class Voeux 
+public class VoeuDTO 
 {
     public int Id {get;set;}
     public Eleve IdEleve {get;set;}
@@ -6,5 +6,5 @@ public class Voeux
     public int NumVoeux {get;set;}
     public Eleve IdEleveChoisi {get;set;}
 
-    public Voeux(){}
+    public VoeuDTO(){}
 }

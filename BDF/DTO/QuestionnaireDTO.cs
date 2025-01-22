@@ -1,7 +1,7 @@
-public class Questionnaire
+public class QuestionnaireDTO
 {
     public int Id {get;set;}
-    public Eleve Eleve {get;set;}
+    public Eleve IdEleve {get;set;}
     public string Provenance {get;set;} = null!;
     public string Astro {get;set;} = null!;
     public string Boisson {get;set;} = null!;
@@ -14,6 +14,6 @@ public class Questionnaire
     public string Qualite {get;set;} = null!;
     public string Relation {get;set;} = null!;
     public string Preference {get;set;} = null!;
-    public Questionnaire(){}
+    public QuestionnaireDTO(){}
 
 }
