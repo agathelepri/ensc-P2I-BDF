@@ -10,5 +10,5 @@ public class EleveDTO
     public byte[] Photo { get; set; }
     public Eleve IdEleveParrain {get;set;} = null!;
 
-    public EleveDTO(){}
+    public EleveDTO(Eleve x) {}
 }

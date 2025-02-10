@@ -6,5 +6,5 @@ public class VoeuDTO
     public int NumVoeux {get;set;}
     public Eleve IdEleveChoisi {get;set;}
 
-    public VoeuDTO(){}
+    public VoeuDTO(Voeu x) {}
 }

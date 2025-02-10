@@ -6,10 +6,30 @@ public static class SeedData
     // Test data for part 1 and 2
     public static void Init()
     {
-        using var context = new DataContext();
+        /* using var context = new DataContext();
+                Promotion premiereA = new Promotion(1)
+        {
+            Id = 1,
+            Annee = 1,
+        };
+        Promotion deuxiemeA = new Promotion(2)
+        {
+            Id = 2,
+            Annee = 2,
+        };
+        Promotion troisiemeA = new Promotion(3)
+        {
+            Id = 3,
+            Annee = 3,
+        };
+        context.Promotions.AddRange(
+            premiereA,
+            deuxiemeA,
+            troisiemeA
+        ); 
 
         // Add eleve
-        Eleve leGuillou = new()
+        Eleve leGuillou = new Eleve ("LeGuillou", "Lise", "lleguillou", 3)
         {
             Id = 1,
             Nom = "LeGuillou",
@@ -89,26 +109,7 @@ public static class SeedData
             jaune,
             orange
         );   
-        Promotion premiereA = new()
-        {
-            Id = 1,
-            Annee = 1,
-        };
-        Promotion deuxiemeA = new()
-        {
-            Id = 2,
-            Annee = 2,
-        };
-        Promotion troisiemeA = new()
-        {
-            Id = 3,
-            Annee = 3,
-        };
-        context.Promotions.AddRange(
-            premiereA,
-            deuxiemeA,
-            troisiemeA
-        ); 
+
 
         Questionnaire alepri = new()
         {
@@ -144,6 +145,6 @@ public static class SeedData
         );
 
          // Commit changes into DB
-        context.SaveChanges();
+        context.SaveChanges(); */
     }
 }

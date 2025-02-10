@@ -14,6 +14,6 @@ public class QuestionnaireDTO
     public string Qualite {get;set;} = null!;
     public string Relation {get;set;} = null!;
     public string Preference {get;set;} = null!;
-    public QuestionnaireDTO(){}
+    public QuestionnaireDTO(Questionnaire x) {}
 
 }
