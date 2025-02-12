@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Voeu 
 {
-    private VoeuDTO voeuDTO;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id {get;set;}
@@ -22,6 +21,13 @@ public class Voeu
 
     public Voeu(VoeuDTO voeuDTO)
     {
-        this.voeuDTO = voeuDTO;
+        this.Id=voeuDTO.Id;
+        this.Eleve= new Eleve(voeuDTO.Eleve);
+        this.Promotion = new Promotion(voeuDTO.Promotion);
+        this.NumVoeux=voeuDTO.NumVoeux;
+        if (voeuDTO.EleveChoisi != null)
+        {
+            this.EleveChoisi = new Eleve(voeuDTO.EleveChoisi);
+        }
     }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api'; // Assurez-vous que l'URL correspond à votre API
+const API_URL = 'http://localhost:5166/api'; 
 
 const api = {
     // Récupérer la liste des élèves

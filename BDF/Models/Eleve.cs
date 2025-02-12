@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Eleve
 {
-    private EleveDTO eleveDTO;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id {get;set;}
@@ -26,6 +25,12 @@ public class Eleve
 
     public Eleve(EleveDTO eleveDTO)
     {
-        this.eleveDTO = eleveDTO;
+        this.Nom = eleveDTO.Nom;
+        this.Prenom = eleveDTO.Prenom;
+        this.Login = eleveDTO.Login;
+        if (eleveDTO.Promotion != null)
+        {
+            this.Promotion = new Promotion(eleveDTO.Promotion);
+        }
     }
 }

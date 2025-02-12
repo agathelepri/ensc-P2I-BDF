@@ -5,10 +5,22 @@ public class EleveDTO
     public string Prenom {get;set;}
     public string Login {get;set;}
     public string MDP {get;set;}
-    public Promotion IdPromotion {get;set;}
-    public Famille IdFamille {get;set;} = null!;
+    public PromotionDTO Promotion {get;set;}
+    public FamilleDTO Famille {get;set;} = null!;
     public byte[] Photo { get; set; }
-    public Eleve IdEleveParrain {get;set;} = null!;
+    public EleveDTO EleveParrain {get;set;} = null!;
 
-    public EleveDTO(Eleve x) {}
+    public EleveDTO(Eleve x) 
+    {
+        Id=x.Id;
+        Nom=x.Nom;
+        Prenom=x.Prenom;
+        Login=x.Login;
+        MDP=x.MDP;
+        Promotion = new PromotionDTO(x.Promotion!);
+        Famille = new FamilleDTO(x.Famille!);
+        Photo = x.Photo;
+        EleveParrain = new EleveDTO(x.EleveParrain!);
+
+    }
 }

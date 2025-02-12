@@ -27,7 +27,7 @@ public class Questionnaire
     public string Preference { get; set; } = null!;
 
     // Constructeur par défaut requis par Entity Framework
-    public Questionnaire() { }
+    public Questionnaire() {}
 
     // Constructeur basé sur QuestionnaireDTO
     public Questionnaire(QuestionnaireDTO questionnaireDTO)
@@ -44,12 +44,7 @@ public class Questionnaire
         Qualite = questionnaireDTO.Qualite;
         Relation = questionnaireDTO.Relation;
         Preference = questionnaireDTO.Preference;
+        Eleve=new Eleve(questionnaireDTO.Eleve);
     }
 
-    // Constructeur avec Eleve
-    public Questionnaire(Eleve eleve)
-    {
-        Eleve = eleve;
-        EleveId = eleve.Id; // Assurez-vous que l'ID est bien assigné
-    }
 }

@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Accueil from '../components/Acceuil';
 
-const Accueil = () => {
-  return (
-    <div>Accueil</div>
-  )
-}
-export default Accueil;
+const AccueilPage = () => {
+    return (
+        <div>
+            <Accueil />
+        </div>
+    );
+};
+
+export default AccueilPage;
+

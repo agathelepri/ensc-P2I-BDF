@@ -1,7 +1,7 @@
 public class QuestionnaireDTO
 {
     public int Id {get;set;}
-    public Eleve IdEleve {get;set;}
+    public EleveDTO Eleve {get;set;}
     public string Provenance {get;set;} = null!;
     public string Astro {get;set;} = null!;
     public string Boisson {get;set;} = null!;
@@ -14,6 +14,22 @@ public class QuestionnaireDTO
     public string Qualite {get;set;} = null!;
     public string Relation {get;set;} = null!;
     public string Preference {get;set;} = null!;
-    public QuestionnaireDTO(Questionnaire x) {}
+    public QuestionnaireDTO(Questionnaire x) 
+    {
+        Id=x.Id;
+        Eleve=new EleveDTO(x.Eleve!);
+        Provenance=x.Provenance;
+        Astro=x.Astro;
+        Boisson=x.Boisson;
+        Soiree=x.Soiree;
+        Son=x.Son;
+        Livre=x.Livre;
+        Film=x.Film;
+        PasseTemps=x.PasseTemps;
+        Defaut=x.Defaut;
+        Qualite=x.Qualite;
+        Relation=x.Relation;
+        Preference=x.Preference;
+    }
 
 }
