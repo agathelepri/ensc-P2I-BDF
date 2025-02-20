@@ -1,18 +1,22 @@
 public class VoeuDTO 
 {
     public int Id {get;set;}
-    public EleveDTO Eleve {get;set;}
-    public PromotionDTO Promotion {get;set;}
+    /* public EleveDTO Eleve {get;set;} */
+    public int Eleve {get;set;}
+   /*  public PromotionDTO Promotion {get;set;}  */
+   public int Promotion {get;set;}
     public int NumVoeux {get;set;}
-    public EleveDTO EleveChoisi {get;set;}
-
+    /* public EleveDTO EleveChoisi {get;set;} */
+    public int EleveChoisi {get;set;}
+    
+    public VoeuDTO(){}
     public VoeuDTO(Voeu x) 
     {
         Id=x.Id;
-        Eleve=new EleveDTO(x.Eleve!);
-        Promotion=new PromotionDTO(x.Promotion);
+        Eleve=x.Eleve.Id;
+        Promotion =x.Promotion.Id;
         NumVoeux=x.NumVoeux;
-        EleveChoisi=new EleveDTO(x.EleveChoisi);
+        EleveChoisi=x.EleveChoisi.Id;
 
     }
 }

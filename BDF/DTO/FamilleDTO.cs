@@ -9,4 +9,5 @@ public class FamilleDTO
         Nom = x.Nom;
         CouleurHexa = x.CouleurHexa; 
     }
+    public FamilleDTO(){}
 }

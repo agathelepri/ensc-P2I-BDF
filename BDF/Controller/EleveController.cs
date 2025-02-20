@@ -1,5 +1,4 @@
 using BDF.Data;
-/* using BDF.DTO; */
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,22 +15,21 @@ public class EleveController : ControllerBase
         _context = context;
     }
 
-    // GET: api/eleve
+    // 🔹 Récupérer tous les élèves
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<EleveDTO>>> GetEleves()
+    public async Task<ActionResult<IEnumerable<EleveDTO>>> GetEleve()
     {
-        // Get courses and related lists
-        var eleves = _context.Eleves.Select(x => new EleveDTO(x));
-        return await eleves.ToListAsync();
+        var eleves = await _context.Eleves
+            .Select(e => new EleveDTO(e))
+            .ToListAsync();
+
+        return Ok(eleves);
     }
 
-    // GET: api/eleve/{id}
+    // 🔹 Récupérer un élève par son ID
     [HttpGet("{id}")]
     public async Task<ActionResult<EleveDTO>> GetEleve(int id)
     {
-        // Find course and related list
-        // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
-        // SingleOrDefaultAsync() is a safer choice here
         var eleve = await _context.Eleves.SingleOrDefaultAsync(t => t.Id == id);
 
         if (eleve == null)
@@ -42,19 +40,64 @@ public class EleveController : ControllerBase
         return new EleveDTO(eleve);
     }
 
-    // POST: api/eleve
+    // 🔹 Vérifier si l'élève existe et s'il a un mot de passe (première connexion)
+    [HttpPost("check-user")]
+    public async Task<IActionResult> CheckUser([FromBody] EleveDTO eleveDTO)
+    {
+        var eleve = await _context.Eleves.FirstOrDefaultAsync(e => e.Login == eleveDTO.Login);
+
+        if (eleve == null)
+            return NotFound(new { error = "Utilisateur non trouvé." });
+
+        return Ok(new { firstLogin = string.IsNullOrEmpty(eleve.MDP) });
+    }
+
+    // 🔹 Enregistrer un mot de passe lors de la première connexion
+    [HttpPost("set-password")]
+    public async Task<IActionResult> SetPassword([FromBody] EleveDTO eleveDTO)
+    {
+        var eleve = await _context.Eleves.FirstOrDefaultAsync(e => e.Login == eleveDTO.Login);
+
+        if (eleve == null)
+            return NotFound(new { error = "Utilisateur non trouvé." });
+
+        // Idéalement, hacher le mot de passe avant de l'enregistrer
+        eleve.MDP = eleveDTO.MDP; 
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Mot de passe enregistré avec succès !" });
+    }
+
+    // 🔹 Connexion : Vérification du mot de passe
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] EleveDTO eleveDTO)
+    {
+        var eleve = await _context.Eleves.FirstOrDefaultAsync(e => e.Login == eleveDTO.Login);
+
+        if (eleve == null)
+            return NotFound(new { error = "Utilisateur non trouvé." });
+
+        if (eleve.MDP != eleveDTO.MDP) // Comparaison brute (ajouter du hachage pour plus de sécurité)
+            return Unauthorized(new { error = "Mot de passe incorrect." });
+
+        return Ok(new { success = true });
+    }
+
+    // 🔹 Ajouter un nouvel élève
     [HttpPost]
     public async Task<ActionResult<EleveDTO>> PostEleve(EleveDTO eleveDTO)
     {
-        Eleve eleve = new(eleveDTO);
+        if (eleveDTO == null)
+            return BadRequest("Les données de l'élève sont invalides.");
 
+        Eleve eleve = new Eleve(eleveDTO);
         _context.Eleves.Add(eleve);
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetEleve), new { id = eleve.Id }, new EleveDTO(eleve));
     }
 
-    // PUT: api/eleve/id
+    // 🔹 Modifier un élève existant
     [HttpPut("{id}")]
     public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
     {
@@ -64,7 +107,6 @@ public class EleveController : ControllerBase
         }
 
         Eleve eleve = new(eleveDTO);
-
         _context.Entry(eleve).State = EntityState.Modified;
 
         try
@@ -82,7 +124,7 @@ public class EleveController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/eleve/id
+    // 🔹 Supprimer un élève
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEleve(int id)
     {

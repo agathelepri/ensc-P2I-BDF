@@ -61,6 +61,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:3000") // Autorise le frontend React
+                        .AllowAnyMethod()  // Autorise GET, POST, PUT, DELETE...
+                        .AllowAnyHeader()); // Autorise tous les headers
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,5 +79,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+app.UseCors("AllowReactApp"); //  Active CORS ici !
+app.MapControllers();
+app.Run();
 app.MapControllers();
 app.Run();
