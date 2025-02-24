@@ -43,45 +43,41 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
  */
-using BDF.Data; // Ajouter cette ligne pour accéder à SeedData
+using BDF.Data; // Accès à SeedData
 using Microsoft.EntityFrameworkCore;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
-SeedData.Init();
 
-
+// Initialiser les données après la configuration de la base
+builder.Services.AddDbContext<DataContext>();
 builder.Services.AddControllers();
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddDbContext<DataContext>();
-
+// Configuration CORS pour autoriser le frontend React et Swagger
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:3000") // Autorise le frontend React
-                        .AllowAnyMethod()  // Autorise GET, POST, PUT, DELETE...
+    options.AddPolicy("AllowAll",
+        policy => policy.WithOrigins("http://localhost:3000") // Autorise React
+                        .AllowAnyMethod()  // GET, POST, PUT, DELETE...
                         .AllowAnyHeader()); // Autorise tous les headers
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Assurer l'initialisation des données APRÈS la configuration des services
+SeedData.Init();
+
+// Activer Swagger uniquement en mode développement
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Configuration du pipeline des middlewares
 app.UseHttpsRedirection();
-app.UseHttpsRedirection();
-app.UseCors("AllowReactApp"); //  Active CORS ici !
-app.MapControllers();
-app.Run();
+app.UseCors("AllowAll"); // Appliquer la politique CORS
+
 app.MapControllers();
 app.Run();

@@ -49,8 +49,9 @@ public class EleveController : ControllerBase
         if (eleve == null)
             return NotFound(new { error = "Utilisateur non trouvé." });
 
-        return Ok(new { firstLogin = string.IsNullOrEmpty(eleve.MDP) });
+        return Ok(new { firstLogin = string.IsNullOrEmpty(eleve.MDP), userId = eleve.Id }); // ✅ Retourne `userId`
     }
+
 
     // 🔹 Enregistrer un mot de passe lors de la première connexion
     [HttpPost("set-password")]
@@ -61,11 +62,10 @@ public class EleveController : ControllerBase
         if (eleve == null)
             return NotFound(new { error = "Utilisateur non trouvé." });
 
-        // Idéalement, hacher le mot de passe avant de l'enregistrer
         eleve.MDP = eleveDTO.MDP; 
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Mot de passe enregistré avec succès !" });
+        return Ok(new { message = "Mot de passe enregistré avec succès !", userId = eleve.Id }); // ✅ Retourne `userId`
     }
 
     // 🔹 Connexion : Vérification du mot de passe
@@ -77,11 +77,12 @@ public class EleveController : ControllerBase
         if (eleve == null)
             return NotFound(new { error = "Utilisateur non trouvé." });
 
-        if (eleve.MDP != eleveDTO.MDP) // Comparaison brute (ajouter du hachage pour plus de sécurité)
+        if (eleve.MDP != eleveDTO.MDP) 
             return Unauthorized(new { error = "Mot de passe incorrect." });
 
-        return Ok(new { success = true });
+        return Ok(new { success = true, userId = eleve.Id }); // Retourne `userId`
     }
+
 
     // 🔹 Ajouter un nouvel élève
     [HttpPost]

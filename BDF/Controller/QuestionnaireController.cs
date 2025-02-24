@@ -17,13 +17,24 @@ public class QuestionnaireController : ControllerBase
     }
 
     // GET: api/questionnaire
-    [HttpGet]
+    /* [HttpGet]
     public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaires()
     {
         // Get courses and related lists
         var questionnaires = _context.Questionnaires.Select(x => new QuestionnaireDTO(x));
         return await questionnaires.ToListAsync();
+    } */
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaires()
+    {
+        var questionnaires = await _context.Questionnaires
+            .Include(q => q.Eleve) // ✅ Assure que Eleve est bien chargé
+            .Select(x => new QuestionnaireDTO(x))
+            .ToListAsync();
+
+        return Ok(questionnaires);
     }
+
 
     // GET: api/questionnaire/{id}
     [HttpGet("{id}")]
@@ -42,8 +53,25 @@ public class QuestionnaireController : ControllerBase
         return new QuestionnaireDTO(questionnaire);
     }
 
+    [HttpGet("eleve/{eleveId}")]
+    public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaireByEleve(int eleveId)
+    {
+        var questionnaires = await _context.Questionnaires
+            .Where(q => q.EleveId == eleveId)
+            .Select(q => new QuestionnaireDTO(q))
+            .ToListAsync();
+
+        if (questionnaires == null || questionnaires.Count == 0)
+        {
+            return NotFound("Aucun questionnaire trouvé pour cet élève.");
+        }
+
+        return Ok(questionnaires);
+    }
+
+
     // POST: api/questionnaire
-    [HttpPost]
+    /* [HttpPost]
     public async Task<ActionResult<QuestionnaireDTO>> PostQuestionnaire(QuestionnaireDTO questionnaireDTO)
     {
         Questionnaire questionnaire = new(questionnaireDTO);
@@ -52,7 +80,55 @@ public class QuestionnaireController : ControllerBase
         await _context.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetQuestionnaire), new { id = questionnaire.Id }, new QuestionnaireDTO(questionnaire));
+    } */
+    [HttpPost]
+public async Task<IActionResult> PostQuestionnaire([FromBody] QuestionnaireDTO questionnaireDTO)
+{
+    if (questionnaireDTO == null)
+    {
+        return BadRequest("Les données du questionnaire sont invalides.");
     }
+
+    try
+    {
+        // Vérifier si l'élève existe
+        var eleve = await _context.Eleves.FindAsync(questionnaireDTO.Eleve);
+        if (eleve == null)
+        {
+            return BadRequest("L'élève spécifié n'existe pas.");
+        }
+
+        // Créer le questionnaire et l'associer à l'élève
+        var questionnaire = new Questionnaire
+        {
+            EleveId = eleve.Id, // Lier l'élève connecté au questionnaire
+            Provenance = questionnaireDTO.Provenance,
+            Astro = questionnaireDTO.Astro,
+            Boisson = questionnaireDTO.Boisson,
+            Soiree = questionnaireDTO.Soiree,
+            Son = questionnaireDTO.Son,
+            Livre = questionnaireDTO.Livre,
+            Film = questionnaireDTO.Film,
+            PasseTemps = questionnaireDTO.PasseTemps,
+            Defaut = questionnaireDTO.Defaut,
+            Qualite = questionnaireDTO.Qualite,
+            Relation = questionnaireDTO.Relation,
+            Preference = questionnaireDTO.Preference
+        };
+
+        _context.Questionnaires.Add(questionnaire);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Questionnaire enregistré avec succès !" });
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Erreur serveur : {ex.InnerException?.Message ?? ex.Message}");
+    }
+}
+
+
+
 
     // PUT: api/questionnaire/id
     [HttpPut("{id}")]

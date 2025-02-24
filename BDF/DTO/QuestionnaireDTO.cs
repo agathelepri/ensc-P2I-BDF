@@ -19,7 +19,7 @@ public class QuestionnaireDTO
     public QuestionnaireDTO(Questionnaire x) 
     {
         Id=x.Id;
-        Eleve=x.Eleve.Id;
+        Eleve = x.Eleve != null ? x.Eleve.Id : 0;
         Provenance=x.Provenance;
         Astro=x.Astro;
         Boisson=x.Boisson;

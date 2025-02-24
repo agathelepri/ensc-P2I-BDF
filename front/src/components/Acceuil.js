@@ -1,14 +1,27 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Acceuil.css';
-//import logo from '../../public/img/NouveauLogo.png'; 
 
 const Accueil = () => {
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        // Supprime les informations de session (exemple : token, utilisateur)
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        // Redirige vers la page de connexion
+        navigate('/');
+    };
+
     return (
         <div className="accueil-container">
-           {/*  <img src={logo} alt="Logo" className="logo" /> */}
+            {/* Lien Déconnexion en haut à droite */}
+            <div className="logout-text" onClick={handleLogout}>
+                Déconnexion
+            </div>
+
+            {/* Contenu de l'accueil */}
             <div className="menu">
                 <button onClick={() => navigate('/questionnaire')}>Questionnaire</button>
                 <button onClick={() => navigate('/voeux')}>Voeux</button>

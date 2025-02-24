@@ -11,7 +11,7 @@ public class Questionnaire
     public int EleveId { get; set; }
 
     [ForeignKey("EleveId")]
-    public Eleve Eleve { get; set; } = null!; // Relation avec Eleve
+    public Eleve? Eleve { get; set; } // Relation avec Eleve
 
     public string Provenance { get; set; } = null!;
     public string Astro { get; set; } = null!;

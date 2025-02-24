@@ -24,7 +24,9 @@ public class DataContext : DbContext
   protected override void OnConfiguring(DbContextOptionsBuilder options)
   {
     // Use SQLite as database
-    options.UseSqlite($"Data Source={DbPath}");
+    options.UseSqlite($"Data Source={DbPath}")
+                  .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking) // Évite les verrous en lecture
+                  .EnableSensitiveDataLogging();
     // Optional: log SQL queries to console
     //options.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information);
   }

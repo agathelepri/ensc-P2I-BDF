@@ -42,3 +42,21 @@ button {
 button:hover {
     background: #5a524a;
 }
+/* Positionne le texte en haut à droite */
+.logout-text {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3b352f;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.logout-text:hover {
+    color: #5a524a;
+    text-decoration: underline;
+}
+
