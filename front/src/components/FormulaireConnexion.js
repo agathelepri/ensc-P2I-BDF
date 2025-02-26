@@ -12,7 +12,7 @@ const FormulaireConnexion = () => {
         e.preventDefault();
 
         try {
-            // Étape 1 : Vérifier si l'utilisateur existe et s'il a déjà un mot de passe
+            // Vérifier si l'utilisateur existe et s'il a déjà un mot de passe
             const checkResponse = await fetch('http://localhost:5166/api/eleve/check-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -27,7 +27,7 @@ const FormulaireConnexion = () => {
             console.log("Réponse du serveur (Check User):", checkData);
 
             if (checkData.firstLogin) {
-                // Étape 2 : L'utilisateur doit définir un mot de passe
+                // L'utilisateur doit définir un mot de passe
                 setIsFirstLogin(true);
 
                 if (!motDePasse) {
@@ -49,11 +49,11 @@ const FormulaireConnexion = () => {
                 const setPasswordData = await setPasswordResponse.json();
                 alert(setPasswordData.message || "Mot de passe enregistré avec succès !");
 
-                // ✅ Stocke l'ID de l'utilisateur après la première connexion
+                // Stocke l'ID de l'utilisateur après la première connexion
                 localStorage.setItem("userId", setPasswordData.userId);
                 navigate('/accueil');
             } else {
-                // Étape 3 : Connexion normale
+                // Connexion normale
                 const loginResponse = await fetch('http://localhost:5166/api/eleve/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -70,7 +70,7 @@ const FormulaireConnexion = () => {
                 if (loginData.success) {
                     alert("Connexion réussie !");
 
-                    // ✅ Stocke `userId` après connexion
+                    // Stocke `userId` après connexion
                     localStorage.setItem("userId", loginData.userId);
 
                     navigate('/accueil');

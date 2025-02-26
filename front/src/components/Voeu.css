@@ -1,0 +1,75 @@
+.voeu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #f9f7f3, #ece7de);
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    gap: 15px;
+}
+
+.autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.autocomplete-list li {
+    padding: 10px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.autocomplete-list li:hover {
+    background: #f0f0f0;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3b352f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a524a;
+}

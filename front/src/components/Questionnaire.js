@@ -31,7 +31,7 @@ const Questionnaire = () => {
             alert("Vous devez être connecté pour accéder au questionnaire.");
             navigate("/");
         } else {
-            setUserId(parseInt(storedUserId)); // ✅ Assure que `userId` est bien un `int`
+            setUserId(parseInt(storedUserId)); // Assure que `userId` est bien un `int`
         }
     }, [navigate]);
 
@@ -74,7 +74,7 @@ const Questionnaire = () => {
             return;
         }
 
-        // ✅ Convertir les tableaux en `string`
+        // Convertir les tableaux en `string`
         const formattedData = Object.keys(formData).reduce((acc, key) => {
             acc[key] = Array.isArray(formData[key]) ? formData[key].join(", ") : formData[key];
             return acc;
@@ -86,7 +86,7 @@ const Questionnaire = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...formattedData,
-                    eleve: userId, // ✅ Envoie bien un `int`
+                    eleve: userId, // Envoie bien un `int`
                 }),
             });
 

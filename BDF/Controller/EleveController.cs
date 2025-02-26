@@ -40,7 +40,7 @@ public class EleveController : ControllerBase
         return new EleveDTO(eleve);
     }
 
-    // 🔹 Vérifier si l'élève existe et s'il a un mot de passe (première connexion)
+    //Vérifier si l'élève existe et s'il a un mot de passe (première connexion)
     [HttpPost("check-user")]
     public async Task<IActionResult> CheckUser([FromBody] EleveDTO eleveDTO)
     {
@@ -49,11 +49,11 @@ public class EleveController : ControllerBase
         if (eleve == null)
             return NotFound(new { error = "Utilisateur non trouvé." });
 
-        return Ok(new { firstLogin = string.IsNullOrEmpty(eleve.MDP), userId = eleve.Id }); // ✅ Retourne `userId`
+        return Ok(new { firstLogin = string.IsNullOrEmpty(eleve.MDP), userId = eleve.Id }); //Retourne `userId`
     }
 
 
-    // 🔹 Enregistrer un mot de passe lors de la première connexion
+    // Enregistrer un mot de passe lors de la première connexion
     [HttpPost("set-password")]
     public async Task<IActionResult> SetPassword([FromBody] EleveDTO eleveDTO)
     {
@@ -65,10 +65,10 @@ public class EleveController : ControllerBase
         eleve.MDP = eleveDTO.MDP; 
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Mot de passe enregistré avec succès !", userId = eleve.Id }); // ✅ Retourne `userId`
+        return Ok(new { message = "Mot de passe enregistré avec succès !", userId = eleve.Id }); // Retourne `userId`
     }
 
-    // 🔹 Connexion : Vérification du mot de passe
+    // Connexion : Vérification du mot de passe
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] EleveDTO eleveDTO)
     {
@@ -84,7 +84,7 @@ public class EleveController : ControllerBase
     }
 
 
-    // 🔹 Ajouter un nouvel élève
+    // Ajouter un nouvel élève
     [HttpPost]
     public async Task<ActionResult<EleveDTO>> PostEleve(EleveDTO eleveDTO)
     {
@@ -98,7 +98,7 @@ public class EleveController : ControllerBase
         return CreatedAtAction(nameof(GetEleve), new { id = eleve.Id }, new EleveDTO(eleve));
     }
 
-    // 🔹 Modifier un élève existant
+    // Modifier un élève existant
     [HttpPut("{id}")]
     public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
     {
@@ -125,7 +125,7 @@ public class EleveController : ControllerBase
         return NoContent();
     }
 
-    // 🔹 Supprimer un élève
+    // Supprimer un élève
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEleve(int id)
     {

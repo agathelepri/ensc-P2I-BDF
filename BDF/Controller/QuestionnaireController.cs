@@ -28,7 +28,7 @@ public class QuestionnaireController : ControllerBase
     public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaires()
     {
         var questionnaires = await _context.Questionnaires
-            .Include(q => q.Eleve) // ✅ Assure que Eleve est bien chargé
+            .Include(q => q.Eleve) // Assure que Eleve est bien chargé
             .Select(x => new QuestionnaireDTO(x))
             .ToListAsync();
 

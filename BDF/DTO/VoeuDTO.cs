@@ -14,7 +14,7 @@ public class VoeuDTO
     {
         Id=x.Id;
         Eleve=x.Eleve.Id;
-        Promotion =x.Promotion.Id;
+        Promotion = x.Promotion != null ? x.Promotion.Id : 0;
         NumVoeux=x.NumVoeux;
         EleveChoisi=x.EleveChoisi.Id;
 
