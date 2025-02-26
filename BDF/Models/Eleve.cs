@@ -19,7 +19,7 @@ public class Eleve
     public string? Login { get; set; }
     public string? MDP { get; set; }
     public Promotion? Promotion { get; set; }
-    [ForeignKey("PromotionId")]
+
     public Famille? Famille { get; set; }
     public byte[]? Photo { get; set; }
     public Eleve? EleveParrain { get; set; }    
