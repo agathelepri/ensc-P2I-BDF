@@ -13,18 +13,18 @@ public class Questionnaire
     [ForeignKey("EleveId")]
     public Eleve? Eleve { get; set; } // Relation avec Eleve
 
-    public string Provenance { get; set; } = null!;
-    public string Astro { get; set; } = null!;
-    public string Boisson { get; set; } = null!;
-    public string Soiree { get; set; } = null!;
-    public string Son { get; set; } = null!;
-    public string Livre { get; set; } = null!;
-    public string Film { get; set; } = null!;
-    public string PasseTemps { get; set; } = null!;
-    public string Defaut { get; set; } = null!;
-    public string Qualite { get; set; } = null!;
-    public string Relation { get; set; } = null!;
-    public string Preference { get; set; } = null!;
+    public string? Provenance { get; set; } = null!;
+    public string? Astro { get; set; } = null!;
+    public string? Boisson { get; set; } = null!;
+    public string? Soiree { get; set; } = null!;
+    public string? Son { get; set; } = null!;
+    public string? Livre { get; set; } = null!;
+    public string? Film { get; set; } = null!;
+    public string? PasseTemps { get; set; } = null!;
+    public string? Defaut { get; set; } = null!;
+    public string? Qualite { get; set; } = null!;
+    public string? Relation { get; set; } = null!;
+    public string? Preference { get; set; } = null!;
 
     // Constructeur par défaut requis par Entity Framework
     public Questionnaire() {}
@@ -44,7 +44,7 @@ public class Questionnaire
         Qualite = questionnaireDTO.Qualite;
         Relation = questionnaireDTO.Relation;
         Preference = questionnaireDTO.Preference;
-        Eleve=new Eleve(questionnaireDTO.Eleve);
+        Eleve=new Eleve(questionnaireDTO.EleveId);
     }
 
 }

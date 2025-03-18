@@ -51,7 +51,7 @@ const FormulaireConnexion = () => {
 
                 // Stocke l'ID de l'utilisateur après la première connexion
                 localStorage.setItem("userId", setPasswordData.userId);
-                navigate('/accueil');
+                navigate(identifiant === "admin" ? '/accueilAdmin' : '/accueil'); // ✅ Redirection Admin
             } else {
                 // Connexion normale
                 const loginResponse = await fetch('http://localhost:5166/api/eleve/login', {
@@ -73,7 +73,8 @@ const FormulaireConnexion = () => {
                     // Stocke `userId` après connexion
                     localStorage.setItem("userId", loginData.userId);
 
-                    navigate('/accueil');
+                    // Vérifie si l'utilisateur est Admin
+                    navigate(identifiant === "Admin" ? '/accueilAdmin' : '/accueil');
                 } else {
                     alert(loginData.error || "Mot de passe incorrect.");
                 }
@@ -109,3 +110,4 @@ const FormulaireConnexion = () => {
 };
 
 export default FormulaireConnexion;
+

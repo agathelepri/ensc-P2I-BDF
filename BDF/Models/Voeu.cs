@@ -22,12 +22,9 @@ public class Voeu
     public Voeu(VoeuDTO voeuDTO)
     {
         this.Id=voeuDTO.Id;
-        this.Eleve= new Eleve(voeuDTO.Eleve);
-        this.Promotion = new Promotion(voeuDTO.Promotion);
+        this.Eleve= new Eleve(voeuDTO.EleveId);
+        this.Promotion = new Promotion(voeuDTO.PromotionId);
         this.NumVoeux=voeuDTO.NumVoeux;
-        if (voeuDTO.EleveChoisi != null)
-        {
-            this.EleveChoisi = new Eleve(voeuDTO.EleveChoisi);
-        }
+        this.EleveChoisi = new Eleve(voeuDTO.EleveChoisiId);
     }
 }

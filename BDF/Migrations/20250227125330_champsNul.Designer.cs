@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BDF.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250205123023_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250227125330_champsNul")]
+    partial class champsNul
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,10 +25,10 @@ namespace BDF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EleveParrainId")
+                    b.Property<int?>("EleveParrainId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("FamilleId")
+                    b.Property<int?>("FamilleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Login")
@@ -36,7 +36,6 @@ namespace BDF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MDP")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nom")
@@ -44,7 +43,6 @@ namespace BDF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("BLOB");
 
                     b.Property<string>("Prenom")
@@ -105,54 +103,42 @@ namespace BDF.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Astro")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Boisson")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Defaut")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EleveId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Film")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Livre")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasseTemps")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Preference")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Provenance")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Qualite")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Relation")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Soiree")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Son")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -195,15 +181,11 @@ namespace BDF.Migrations
                 {
                     b.HasOne("Eleve", "EleveParrain")
                         .WithMany()
-                        .HasForeignKey("EleveParrainId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EleveParrainId");
 
                     b.HasOne("Famille", "Famille")
                         .WithMany()
-                        .HasForeignKey("FamilleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FamilleId");
 
                     b.HasOne("Promotion", "Promotion")
                         .WithMany()

@@ -1,0 +1,52 @@
+.classement-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #f9f9f9, #e3e3e3);
+}
+
+.classement-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.classement-list {
+    width: 90%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.classement-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.classement-nom {
+    flex: 1;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.classement-points {
+    font-weight: bold;
+    margin-right: 15px;
+}

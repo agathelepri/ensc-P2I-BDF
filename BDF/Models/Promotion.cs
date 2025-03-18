@@ -13,9 +13,9 @@ public class Promotion
         this.Annee=promotionDTO.Annee;
     }
 
-    public Promotion(int annee)
+    public Promotion(int id)
     {
-        Annee = annee;
+        Id = id;
     }
     
 }

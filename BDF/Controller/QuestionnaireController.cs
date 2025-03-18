@@ -92,7 +92,7 @@ public async Task<IActionResult> PostQuestionnaire([FromBody] QuestionnaireDTO q
     try
     {
         // Vérifier si l'élève existe
-        var eleve = await _context.Eleves.FindAsync(questionnaireDTO.Eleve);
+        var eleve = await _context.Eleves.FindAsync(questionnaireDTO.EleveId);
         if (eleve == null)
         {
             return BadRequest("L'élève spécifié n'existe pas.");

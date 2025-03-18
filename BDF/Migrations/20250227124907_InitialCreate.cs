@@ -43,14 +43,14 @@ namespace BDF.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nom = table.Column<string>(type: "TEXT", nullable: false),
-                    Prenom = table.Column<string>(type: "TEXT", nullable: false),
-                    Login = table.Column<string>(type: "TEXT", nullable: false),
-                    MDP = table.Column<string>(type: "TEXT", nullable: false),
-                    PromotionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FamilleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Photo = table.Column<byte[]>(type: "BLOB", nullable: false),
-                    EleveParrainId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Nom = table.Column<string>(type: "TEXT", nullable: true),
+                    Prenom = table.Column<string>(type: "TEXT", nullable: true),
+                    Login = table.Column<string>(type: "TEXT", nullable: true),
+                    MDP = table.Column<string>(type: "TEXT", nullable: true),
+                    PromotionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    FamilleId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Photo = table.Column<byte[]>(type: "BLOB", nullable: true),
+                    EleveParrainId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,20 +59,17 @@ namespace BDF.Migrations
                         name: "FK_Eleves_Eleves_EleveParrainId",
                         column: x => x.EleveParrainId,
                         principalTable: "Eleves",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Eleves_Familles_FamilleId",
                         column: x => x.FamilleId,
                         principalTable: "Familles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Eleves_Promotions_PromotionId",
                         column: x => x.PromotionId,
                         principalTable: "Promotions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

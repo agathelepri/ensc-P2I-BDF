@@ -18,10 +18,10 @@ public class EleveDTO
     public string Prenom { get; set; } = "Inconnu";
     public string Login { get; set; } = "default_login";
     public string MDP { get; set; } = "";
-    public int Promotion { get; set; }
-    public int Famille { get; set; }
+    public int PromotionId { get; set; }
+    public int FamilleId { get; set; }
     public byte[] Photo { get; set; } = new byte[0];  // Evite NULL
-    public int EleveParrain { get; set; }
+    public int EleveParrainId { get; set; }
     /* public EleveDTO(Eleve x) 
     {
         Id=x.Id;
@@ -47,10 +47,10 @@ public class EleveDTO
         Login = x.Login ?? "default_login";
         MDP = x.MDP ?? "";
 
-        Promotion = x.Promotion != null ? x.Promotion.Id : 0;  // Évite NULL
-        Famille = x.Famille != null ? x.Famille.Id : 0;  // Évite NULL
+        PromotionId = x.Promotion != null ? x.Promotion.Id : 0;  // Évite NULL
+        FamilleId = x.Famille != null ? x.Famille.Id : 0;  // Évite NULL
         Photo = x.Photo ?? new byte[0];  // Évite NULL
-        EleveParrain = x.EleveParrain != null ? x.EleveParrain.Id : 0;  // Évite NULL
+        EleveParrainId = x.EleveParrain != null ? x.EleveParrain.Id : 0;  // Évite NULL
     }
 
 

@@ -2,7 +2,7 @@ public class QuestionnaireDTO
 {
     public int Id {get;set;}
     /* public EleveDTO Eleve {get;set;} */
-    public int Eleve{get;set;}
+    public int EleveId {get;set;}
     public string Provenance {get;set;} = null!;
     public string Astro {get;set;} = null!;
     public string Boisson {get;set;} = null!;
@@ -19,7 +19,7 @@ public class QuestionnaireDTO
     public QuestionnaireDTO(Questionnaire x) 
     {
         Id=x.Id;
-        Eleve = x.Eleve != null ? x.Eleve.Id : 0;
+        EleveId = x.Eleve != null ? x.Eleve.Id : 0;
         Provenance=x.Provenance;
         Astro=x.Astro;
         Boisson=x.Boisson;

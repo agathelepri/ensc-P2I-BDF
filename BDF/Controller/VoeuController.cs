@@ -67,7 +67,7 @@ public class VoeuController : ControllerBase
         // Vérifie que l'élève existe en base avec sa promotion
             var eleve = await _context.Eleves
                 .Include(e => e.Promotion)
-                .FirstOrDefaultAsync(e => e.Id == voeuDTO.Eleve);
+                .FirstOrDefaultAsync(e => e.Id == voeuDTO.EleveId);
 
             if (eleve == null)
             {
@@ -80,7 +80,7 @@ public class VoeuController : ControllerBase
             }
 
         // Vérifie que l'élève choisi existe en base
-            var eleveChoisi = await _context.Eleves.FindAsync(voeuDTO.EleveChoisi);
+            var eleveChoisi = await _context.Eleves.FindAsync(voeuDTO.EleveChoisiId);
             if (eleveChoisi == null)
             {
                 return BadRequest("L'élève choisi n'existe pas.");

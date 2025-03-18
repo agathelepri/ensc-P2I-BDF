@@ -1,0 +1,45 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #f9f9f9, #e3e3e3);
+}
+
+.admin-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.admin-button {
+    width: 200px;
+    padding: 12px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4a3c2f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-button:hover {
+    background-color: #2f241a;
+}
+
+.logout {
+    background-color: #d9534f;
+}
+
+.logout:hover {
+    background-color: #c9302c;
+}

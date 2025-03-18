@@ -14,16 +14,21 @@ public class Eleve
     public byte[] Photo { get; set; } = null !;
     public Eleve EleveParrain {get;set;} = null!; */
     public int Id { get; set; }
-    public string? Nom { get; set; }
-    public string? Prenom { get; set; }
-    public string? Login { get; set; }
+    public string Nom { get; set; }
+    public string Prenom { get; set; }
+    public string Login { get; set; }
     public string? MDP { get; set; }
-    public Promotion? Promotion { get; set; }
-
+    public int PromotionId {get;set;}
+    [ForeignKey("PromotionId")]
+    public Promotion Promotion { get; set; }
+    [ForeignKey("FamilleId")]
     public Famille? Famille { get; set; }
     public byte[]? Photo { get; set; }
+    [ForeignKey("EleveParrainId")]
     public Eleve? EleveParrain { get; set; }    
-    public Eleve(int eleveChoisi) {}
+    public Eleve(int eleveId) {
+        this.Id=eleveId;
+    }
     public Eleve (){}
 
     public Eleve(string nom, string prenom, string login, Promotion promotion)
@@ -39,9 +44,6 @@ public class Eleve
         this.Nom = eleveDTO.Nom;
         this.Prenom = eleveDTO.Prenom;
         this.Login = eleveDTO.Login;
-        if (eleveDTO.Promotion != null)
-        {
-            this.Promotion = new Promotion(eleveDTO.Promotion);
-        }
+        this.PromotionId = eleveDTO.PromotionId;
     }
 }
