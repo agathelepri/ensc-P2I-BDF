@@ -41,6 +41,21 @@ public class PromotionController : ControllerBase
 
         return new PromotionDTO(promotion);
     }
+    [HttpGet("promotions")]
+public async Task<IActionResult> GetPromotion()
+{
+    var promotion = await _context.Promotions
+        .Select(p => new { p.Id, p.Annee })
+        .ToListAsync();
+
+    if (promotion.Count == 0)
+    {
+        return NotFound("Aucune promotion trouvée.");
+    }
+    await _context.SaveChangesAsync();
+
+    return Ok(promotion);
+}
 
     // POST: api/promotion
     [HttpPost]

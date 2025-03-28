@@ -53,6 +53,29 @@ public class FamilleController : ControllerBase
 
         return CreatedAtAction(nameof(GetFamille), new { id = famille.Id }, new FamilleDTO(famille));
     }
+[HttpGet("classement")]
+public async Task<IActionResult> GetClassement()
+{
+    var classement = await _context.Familles
+        .OrderByDescending(c => c.Points) // Trie par points décroissants
+        .Select(c => new
+        {
+            c.Id,
+            c.Nom,
+            c.Points,
+            Couleur = c.CouleurHexa // Assure-toi que ce champ existe bien
+        })
+        .ToListAsync();
+
+    if (classement.Count == 0)
+    {
+        return NotFound("Aucune donnée trouvée.");
+    }
+    await _context.SaveChangesAsync();
+
+    return Ok(classement);
+}
+
 
     // PUT: api/famille/id
     [HttpPut("{id}")]

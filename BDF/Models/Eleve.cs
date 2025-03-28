@@ -25,7 +25,9 @@ public class Eleve
     public Famille? Famille { get; set; }
     public byte[]? Photo { get; set; }
     [ForeignKey("EleveParrainId")]
-    public Eleve? EleveParrain { get; set; }    
+    public Eleve? EleveParrain { get; set; }
+    public int? EleveParrainId { get; set; }
+
     public Eleve(int eleveId) {
         this.Id=eleveId;
     }

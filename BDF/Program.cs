@@ -66,7 +66,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Assurer l'initialisation des données APRÈS la configuration des services
-SeedData.Init();
+//SeedData.Init();
 
 // Activer Swagger uniquement en mode développement
 if (app.Environment.IsDevelopment())
@@ -78,6 +78,8 @@ if (app.Environment.IsDevelopment())
 // Configuration du pipeline des middlewares
 app.UseHttpsRedirection();
 app.UseCors("AllowAll"); // Appliquer la politique CORS
-
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+

@@ -54,60 +54,33 @@ public class VoeuController : ControllerBase
         return CreatedAtAction(nameof(GetVoeu), new { id = voeu.Id }, new VoeuDTO(voeu));
     } */
     // POST: api/voeu
-   [HttpPost]
-    public async Task<ActionResult<VoeuDTO>> PostVoeu(VoeuDTO voeuDTO)
+[HttpPost]
+public async Task<IActionResult> PostVoeu(VoeuDTO dto)
+{
+    Console.WriteLine(dto.EleveId+" " +dto.EleveChoisiId+ " " +dto.PromotionId);
+    var eleve = await _context.Eleves.FindAsync(dto.EleveId);
+    var eleveChoisi = await _context.Eleves.FindAsync(dto.EleveChoisiId);
+    var promotion = await _context.Promotions.FindAsync(dto.PromotionId);
+
+    if (eleve == null || eleveChoisi == null || promotion == null)
     {
-        if (voeuDTO == null)
-        {
-            return BadRequest("Les données du vœu sont invalides.");
-        }
-
-        try
-        {
-        // Vérifie que l'élève existe en base avec sa promotion
-            var eleve = await _context.Eleves
-                .Include(e => e.Promotion)
-                .FirstOrDefaultAsync(e => e.Id == voeuDTO.EleveId);
-
-            if (eleve == null)
-            {
-                return BadRequest("L'élève spécifié n'existe pas.");
-            }
-
-            if (eleve.Promotion == null)
-            {
-                return BadRequest("L'élève n'a pas de promotion associée.");
-            }
-
-        // Vérifie que l'élève choisi existe en base
-            var eleveChoisi = await _context.Eleves.FindAsync(voeuDTO.EleveChoisiId);
-            if (eleveChoisi == null)
-            {
-                return BadRequest("L'élève choisi n'existe pas.");
-            }
-
-            var promotion = eleve.Promotion; // Prend la promotion associée à l'élève
-
-            var voeu = new Voeu
-            {
-                Eleve = eleve,
-                Promotion = promotion,
-                NumVoeux = voeuDTO.NumVoeux,
-                EleveChoisi = eleveChoisi
-            };
-
-            _context.Voeux.Add(voeu);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetVoeu), new { id = voeu.Id }, new VoeuDTO(voeu));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Erreur serveur : {ex.InnerException?.Message ?? ex.Message}");
-        }
+        return BadRequest("Élève ou promotion non trouvée");
     }
 
+    var voeu = new Voeu
+    {
+        Eleve = eleve,
+        EleveChoisi = eleveChoisi,
+        Promotion = promotion,
+        NumVoeux = dto.NumVoeux
+    };
 
+    _context.Voeux.Add(voeu);
+    _context.Entry(voeu).State = EntityState.Modified;
+    await _context.SaveChangesAsync();
+
+    return Ok();
+}
 
     // PUT: api/voeu/id
     [HttpPut("{id}")]

@@ -6,8 +6,8 @@ public static class SeedData
     // Test data for part 1 and 2
     public static void Init()
     {
-        /* using var context = new DataContext();
-                Promotion premiereA = new Promotion(1)
+        using var context = new DataContext();
+                /*Promotion premiereA = new Promotion(1)
         {
             Id = 1,
             Annee = 1,
@@ -70,7 +70,7 @@ public static class SeedData
             lepri,
             leGuillou,
             tchoua
-        );
+        );*/
 
         Famille bleu = new()
         {
@@ -111,7 +111,7 @@ public static class SeedData
         );   
 
 
-        Questionnaire alepri = new()
+        /*Questionnaire alepri = new()
         {
             Id = 1,
             Eleve = 2,
@@ -142,9 +142,9 @@ public static class SeedData
         };
         context.Voeux.AddRange(
             Alepri
-        );
+        );*/
 
          // Commit changes into DB
-        context.SaveChanges(); */
+        context.SaveChanges(); 
     }
 }
