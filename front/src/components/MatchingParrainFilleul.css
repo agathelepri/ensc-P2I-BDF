@@ -1,0 +1,42 @@
+.matching-container {
+    padding: 30px;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.matching-button {
+    padding: 12px 20px;
+    background-color: #4a3c2f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.matching-button:hover {
+    background-color: #2f241a;
+}
+
+.matching-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.matching-table th, .matching-table td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.matching-table th {
+    background-color: #4a3c2f;
+    color: white;
+}

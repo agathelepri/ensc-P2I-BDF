@@ -1,0 +1,147 @@
+/* Conteneur principal */
+.gestion-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: linear-gradient(to bottom, #f5f0e1, #e8dcc8);
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titre principal */
+.gestion-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #4a3c2f;
+}
+
+/* Onglets promotions : 4 par ligne */
+.promo-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.promo-tab {
+    flex: 1 0 22%;
+    min-width: 120px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4a3c2f;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.promo-tab:hover {
+    background-color: #6a5240;
+}
+
+.promo-tab.active {
+    background-color: #e85a5a;
+}
+
+/* Liste des étudiants */
+.etudiants-liste {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+/* Scroll vertical si besoin */
+.etudiants-scroll {
+    max-height: none; 
+    overflow-y: visible;
+}
+
+/* Tableau */
+.etudiants-liste table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.etudiants-liste th,
+.etudiants-liste td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.etudiants-liste th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+/* Input modifiables */
+.etudiants-liste input[type="text"] {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* Bouton enregistrer */
+.btn-save {
+    padding: 6px 12px;
+    background-color: #c09f6a;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-save:hover {
+    background-color: #a87e3d;
+}
+
+/* Responsive : 2 onglets par ligne sur petits écrans */
+@media (max-width: 600px) {
+    .promo-tab {
+        flex: 1 0 45%;
+    }
+}
+
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e0e0e0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover {
+    background-color: #c09f6a;
+    color: white;
+}
+
+.pagination button.active {
+    background-color: #c09f6a;
+    color: white;
+    cursor: default;
+}

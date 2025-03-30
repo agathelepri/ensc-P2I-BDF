@@ -76,7 +76,6 @@ public async Task<IActionResult> PostVoeu(VoeuDTO dto)
     };
 
     _context.Voeux.Add(voeu);
-    _context.Entry(voeu).State = EntityState.Modified;
     await _context.SaveChangesAsync();
 
     return Ok();

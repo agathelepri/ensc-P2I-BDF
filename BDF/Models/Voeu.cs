@@ -21,10 +21,7 @@ public class Voeu
 
     public Voeu(VoeuDTO voeuDTO)
     {
-        this.Id=voeuDTO.Id;
-        this.Eleve= new Eleve(voeuDTO.EleveId);
-        this.Promotion = new Promotion(voeuDTO.PromotionId);
-        this.NumVoeux=voeuDTO.NumVoeux;
-        this.EleveChoisi = new Eleve(voeuDTO.EleveChoisiId);
+        Id = voeuDTO.Id;
+        NumVoeux = voeuDTO.NumVoeux;
     }
 }

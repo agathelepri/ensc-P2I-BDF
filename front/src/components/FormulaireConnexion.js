@@ -6,13 +6,16 @@ const FormulaireConnexion = () => {
     const navigate = useNavigate();
     const [identifiant, setIdentifiant] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
-    const [isFirstLogin, setIsFirstLogin] = useState(false); // Indique si c'est une première connexion
+    const [isFirstLogin, setIsFirstLogin] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Vérifier si l'utilisateur existe et s'il a déjà un mot de passe
+            console.log("Tentative de connexion avec", identifiant);
+
+            // Vérifie si l'utilisateur existe
             const checkResponse = await fetch('http://localhost:5166/api/eleve/check-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -20,14 +23,13 @@ const FormulaireConnexion = () => {
             });
 
             if (!checkResponse.ok) {
-                throw new Error(`Erreur du serveur: ${checkResponse.status} - ${checkResponse.statusText}`);
+                throw new Error(`Erreur serveur: ${checkResponse.status}`);
             }
 
             const checkData = await checkResponse.json();
             console.log("Réponse du serveur (Check User):", checkData);
 
             if (checkData.firstLogin) {
-                // L'utilisateur doit définir un mot de passe
                 setIsFirstLogin(true);
 
                 if (!motDePasse) {
@@ -43,15 +45,14 @@ const FormulaireConnexion = () => {
                 });
 
                 if (!setPasswordResponse.ok) {
-                    throw new Error(`Erreur du serveur: ${setPasswordResponse.status} - ${setPasswordResponse.statusText}`);
+                    throw new Error(`Erreur serveur: ${setPasswordResponse.status}`);
                 }
 
                 const setPasswordData = await setPasswordResponse.json();
                 alert(setPasswordData.message || "Mot de passe enregistré avec succès !");
 
-                // Stocke l'ID de l'utilisateur après la première connexion
                 localStorage.setItem("userId", setPasswordData.userId);
-                navigate(identifiant === "admin" ? '/accueilAdmin' : '/accueil'); // ✅ Redirection Admin
+                navigate(identifiant.toLowerCase() === "admin" ? "/accueilAdmin" : "/accueil");
             } else {
                 // Connexion normale
                 const loginResponse = await fetch('http://localhost:5166/api/eleve/login', {
@@ -61,7 +62,7 @@ const FormulaireConnexion = () => {
                 });
 
                 if (!loginResponse.ok) {
-                    throw new Error(`Erreur du serveur: ${loginResponse.status} - ${loginResponse.statusText}`);
+                    throw new Error(`Erreur serveur: ${loginResponse.status}`);
                 }
 
                 const loginData = await loginResponse.json();
@@ -69,25 +70,24 @@ const FormulaireConnexion = () => {
 
                 if (loginData.success) {
                     alert("Connexion réussie !");
-
-                    // Stocke `userId` après connexion
                     localStorage.setItem("userId", loginData.userId);
+                    localStorage.setItem("role", loginData.role);
 
-                    // Vérifie si l'utilisateur est Admin
-                    navigate(identifiant === "Admin" ? '/accueilAdmin' : '/accueil');
+                    navigate(loginData.role === "admin" ? "/accueilAdmin" : "/accueil");
                 } else {
-                    alert(loginData.error || "Mot de passe incorrect.");
+                    setErrorMessage(loginData.error || "Mot de passe incorrect.");
                 }
             }
         } catch (error) {
             console.error("Erreur attrapée:", error);
-            alert(`Une erreur est survenue: ${error.message}`);
+            setErrorMessage("Une erreur est survenue, veuillez réessayer.");
         }
     };
 
     return (
         <div className="connexion-container">
             <h2>Bienvenue</h2>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -101,7 +101,7 @@ const FormulaireConnexion = () => {
                     placeholder={isFirstLogin ? "Définir un mot de passe" : "Mot de passe"}
                     value={motDePasse}
                     onChange={(e) => setMotDePasse(e.target.value)}
-                    required={isFirstLogin} // Rend obligatoire si c'est la première connexion
+                    required={isFirstLogin}
                 />
                 <button type="submit">{isFirstLogin ? "Définir le mot de passe" : "Se connecter"}</button>
             </form>
@@ -110,4 +110,5 @@ const FormulaireConnexion = () => {
 };
 
 export default FormulaireConnexion;
+
 

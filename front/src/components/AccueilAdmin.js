@@ -12,7 +12,8 @@ const AccueilAdmin = () => {
 
             <button className="admin-button" onClick={() => navigate('/classement')}>Gestion des Classements</button>
             <button className="admin-button" onClick={() => navigate('/familles')}>Gérer les Familles</button>
-            <button className="admin-button" onClick={() => navigate('/voeux')}>Gérer les Vœux</button>
+            <button className="admin-button" onClick={() => navigate('/match')}>Gérer les Vœux</button>
+            <button className="admin-button" onClick={() => navigate('/etudiant')}>Gérer les étudiants</button>
             <button className="admin-button logout" onClick={() => { localStorage.clear(); navigate('/'); }}>Déconnexion</button>
         </div>
     );

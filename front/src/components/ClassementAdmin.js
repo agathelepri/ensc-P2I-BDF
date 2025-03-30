@@ -1,54 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ClassementAdmin.css';
 
 const ClassementAdmin = () => {
     const navigate = useNavigate();
+    const [classement, setClassement] = useState([]);
+    const isAdmin = localStorage.getItem("role") === "admin";
 
-    // États pour stocker les points de chaque famille
-    const [classement, setClassement] = useState([
-        { id: 1, nom: "Bleu", points: 300, couleur: "#5A71E8" },
-        { id: 2, nom: "Rouge", points: 275, couleur: "#E85A5A" },
-        { id: 3, nom: "Orange", points: 120, couleur: "#E89B5A" },
-        { id: 4, nom: "Vert", points: 15, couleur: "#5AE87A" },
-        { id: 5, nom: "Jaune", points: 2, couleur: "#E8D15A" },
-    ]);
+    useEffect(() => {
+        const fetchClassement = async () => {
+            try {
+                console.log("Chargement du classement...");
+                const response = await fetch('http://localhost:5166/api/classement');
 
-    // Gérer la modification des points
+                if (!response.ok) throw new Error(`Erreur serveur: ${response.status}`);
+
+                const data = await response.json();
+                console.log("Classement reçu:", data);
+                setClassement(data);
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        };
+
+        fetchClassement();
+    }, []);
+
     const handlePointsChange = (id, newPoints) => {
+        if (!isAdmin) return;
         setClassement(classement.map(famille =>
             famille.id === id ? { ...famille, points: newPoints } : famille
         ));
     };
 
-    // Gérer la soumission des points
-    const handleSubmit = () => {
-        console.log("Classement mis à jour :", classement);
-        alert("Classement mis à jour avec succès !");
-        navigate('/accueilAdmin'); // Retour à l'accueil admin après validation
+    const handleSubmit = async () => {
+        if (!isAdmin) return;
+
+        try {
+            await fetch('http://localhost:5166/api/classement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'role': localStorage.getItem("role")
+                },
+                body: JSON.stringify(classement),
+            });
+
+            alert("Classement mis à jour !");
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour :", error);
+        }
     };
 
     return (
         <div className="classement-container">
-           {/*  <img src="/img/logo.png" alt="Logo" className="classement-logo" /> */}
+            {/* <img src="/img/logo.png" alt="Logo" className="classement-logo" /> */}
             <h2>Classement</h2>
 
             <div className="classement-list">
                 {classement.map((famille) => (
                     <div key={famille.id} className="classement-item" style={{ backgroundColor: famille.couleur }}>
                         <span className="classement-nom">{famille.nom}</span>
-                        <input
-                            type="number"
-                            className="classement-input"
-                            value={famille.points}
-                            onChange={(e) => handlePointsChange(famille.id, parseInt(e.target.value))}
-                        />
-                        <span className="classement-pts">pts</span>
+                        <div className="classement-input-container">
+                            <input
+                                type="number"
+                                className="classement-input"
+                                value={famille.points}
+                                onChange={(e) => handlePointsChange(famille.id, parseInt(e.target.value))}
+                            />
+                            <span className="classement-pts">Pts</span>
+                        </div>
+                        <span className="classement-total-points">{famille.points} pts</span>
                     </div>
                 ))}
             </div>
 
-            <button className="classement-valider" onClick={handleSubmit}>Valider</button>
+            {isAdmin && <button className="classement-valider" onClick={handleSubmit}>Valider</button>}
         </div>
     );
 };

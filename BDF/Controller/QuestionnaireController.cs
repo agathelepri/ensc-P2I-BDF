@@ -43,7 +43,9 @@ public class QuestionnaireController : ControllerBase
         // Find course and related list
         // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
         // SingleOrDefaultAsync() is a safer choice here
-        var questionnaire = await _context.Questionnaires.SingleOrDefaultAsync(t => t.Id == id);
+        var questionnaire = await _context.Questionnaires
+        .Include(q => q.Eleve) 
+        .SingleOrDefaultAsync(t => t.Id == id);
 
         if (questionnaire == null)
         {
