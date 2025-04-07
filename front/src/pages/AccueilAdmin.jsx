@@ -1,16 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Accueil from './pages/Accueil';
-import AccueilAdmin from './pages/AccueilAdmin';
+import React from 'react';
+import AccueilAdmin from '../components/AccueilAdmin';
 
-function App() {
+const AccueilAdminPage = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/accueil" element={<Accueil />} />
-                <Route path="/accueilAdmin" element={<AccueilAdmin />} />
-            </Routes>
-        </Router>
+        <div>
+            <AccueilAdmin />
+        </div>
     );
-}
+};
 
-export default App;
+export default AccueilAdminPage;

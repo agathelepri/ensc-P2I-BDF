@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './GestionEtudiants.css';
 
@@ -9,6 +8,7 @@ const GestionEtudiant = () => {
     const [isEditing, setIsEditing] = useState(null);
     const [editedEleve, setEditedEleve] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
+    const [parrainsPossibles, setParrainsPossibles] = useState([]);
     const itemsPerPage = 10;
 
     useEffect(() => {
@@ -33,14 +33,29 @@ const GestionEtudiant = () => {
                     if (!response.ok) throw new Error("Erreur lors du chargement des élèves");
                     const data = await response.json();
                     setEleves(data);
-                    setCurrentPage(1); // reset page
+                    setCurrentPage(1);
+
+                    const promoActuelle = promotions.find(p => p.id === selectedPromo);
+                    if (!promoActuelle) return;
+                    const anneePrecedente = promoActuelle.annee - 1;
+                    const promoParrain = promotions.find(p => p.annee === anneePrecedente);
+
+                    if (promoParrain) {
+                        const resParrains = await fetch(`http://localhost:5166/api/eleve/promotion/${promoParrain.id}`);
+                        if (resParrains.ok) {
+                            const dataParrains = await resParrains.json();
+                            setParrainsPossibles(dataParrains);
+                        }
+                    } else {
+                        setParrainsPossibles([]);
+                    }
                 } catch (error) {
                     console.error("Erreur:", error);
                 }
             };
             fetchEleves();
         }
-    }, [selectedPromo]);
+    }, [selectedPromo, promotions]);
 
     const handleEditClick = (eleve) => {
         setIsEditing(eleve.id);
@@ -106,7 +121,8 @@ const GestionEtudiant = () => {
                                     <th>Nom</th>
                                     <th>Prénom</th>
                                     <th>Login</th>
-                                    <th>{selectedPromo === 1 ? "Filleuls" : "Parrain"}</th>
+                                    <th>Parrain</th>
+                                    <th>Filleuls</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -123,24 +139,23 @@ const GestionEtudiant = () => {
                                         <td>{isEditing === eleve.id ? (
                                             <input type="text" name="login" value={editedEleve.login} onChange={handleChange} />
                                         ) : eleve.login}</td>
-                                        <td>{selectedPromo === 1 ? (
-                                            Array.isArray(eleve.affichage) && eleve.affichage.length > 0 ? (
-                                                <ul>{eleve.affichage.map((f, index) => (
-                                                    <li key={index}>{f.prenom} {f.nom}</li>
-                                                ))}</ul>
-                                            ) : "—"
-                                        ) : isEditing === eleve.id ? (
+                                        <td>{isEditing === eleve.id ? (
                                             <select name="eleveParrainId" value={editedEleve.eleveParrainId || 0} onChange={handleChange}>
                                                 <option value={0}>Aucun</option>
-                                                {eleves.map((e) => (
-                                                    e.id !== eleve.id && (
-                                                        <option key={e.id} value={e.id}>{e.prenom} {e.nom}</option>
-                                                    )
+                                                {parrainsPossibles.map((p) => (
+                                                    <option key={p.id} value={p.id}>{p.prenom} {p.nom}</option>
                                                 ))}
                                             </select>
                                         ) : (
-                                            eleve.affichage ? `${eleve.affichage.prenom} ${eleve.affichage.nom}` : "—"
+                                            eleve.eleveParrain ? `${eleve.eleveParrain.prenom} ${eleve.eleveParrain.nom}` : "—"
                                         )}</td>
+                                        <td>
+                                            {Array.isArray(eleve.filleuls) && eleve.filleuls.length > 0 ? (
+                                                <ul>{eleve.filleuls.map((f, idx) => (
+                                                    <li key={idx}>{f.prenom} {f.nom}</li>
+                                                ))}</ul>
+                                            ) : "—"}
+                                        </td>
                                         <td>{isEditing === eleve.id ? (
                                             <button onClick={() => handleSave(eleve.id)}>Sauvegarder</button>
                                         ) : (

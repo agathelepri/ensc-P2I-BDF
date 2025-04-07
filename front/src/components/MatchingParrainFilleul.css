@@ -3,6 +3,8 @@
     background-color: #f9f9f9;
     text-align: center;
     font-family: Arial, sans-serif;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .matching-button {
@@ -21,22 +23,36 @@
 }
 
 .matching-table {
-    width: 80%;
-    margin: 0 auto;
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
     border-collapse: collapse;
     background-color: white;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
+    display: block;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .matching-table th, .matching-table td {
-    padding: 14px;
+    padding: 10px;
     border-bottom: 1px solid #ddd;
-    font-size: 16px;
+    font-size: 14px;
+    text-align: left;
 }
 
 .matching-table th {
     background-color: #4a3c2f;
     color: white;
+    position: sticky;
+    top: 0;
+}
+
+.nonmatch-list {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
 }

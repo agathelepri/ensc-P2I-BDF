@@ -1,7 +1,7 @@
 import React from 'react';
 import Voeu from "../components/Voeu";
 
-const Voeu = () => {
+const VoeuPage = () => {
     return (
         <div>
             <Voeu />
@@ -9,4 +9,4 @@ const Voeu = () => {
     );
 };
 
-export default Voeu;
+export default VoeuPage;

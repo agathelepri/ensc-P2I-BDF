@@ -5,9 +5,13 @@ public class Voeu
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id {get;set;}
+
+    public int EleveId {get;set;}
     public Eleve Eleve {get;set;}
+    public int PromotionId {get;set;}
     public Promotion Promotion {get;set;}
     public int NumVoeux {get;set;}
+    public int EleveChoisiId {get;set;}
     public Eleve EleveChoisi {get;set;}
     public Voeu (){}
 

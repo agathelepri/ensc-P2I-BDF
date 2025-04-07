@@ -21,7 +21,9 @@ public class VoeuController : ControllerBase
     public async Task<ActionResult<IEnumerable<VoeuDTO>>> GetVoeux()
     {
         // Get courses and related lists
-        var voeux = _context.Voeux.Select(x => new VoeuDTO(x));
+        var voeux = _context.Voeux.Include(x=>x.Eleve)
+        .Include(x=>x.Promotion)
+        .Include(x=>x.EleveChoisi).Select(x => new VoeuDTO(x));
         return await voeux.ToListAsync();
     }
 
@@ -69,9 +71,9 @@ public async Task<IActionResult> PostVoeu(VoeuDTO dto)
 
     var voeu = new Voeu
     {
-        Eleve = eleve,
-        EleveChoisi = eleveChoisi,
-        Promotion = promotion,
+        EleveId = eleve.Id,
+        EleveChoisiId = eleveChoisi.Id,
+        PromotionId = promotion.Id,
         NumVoeux = dto.NumVoeux
     };
 

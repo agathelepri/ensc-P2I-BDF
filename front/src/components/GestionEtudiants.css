@@ -54,10 +54,10 @@
     overflow-x: auto;
 }
 
-/* Scroll vertical si besoin */
+/* Scroll vertical pour les élèves */
 .etudiants-scroll {
-    max-height: none; 
-    overflow-y: visible;
+    max-height: 500px; /* Hauteur maximale pour activer le défilement */
+    overflow-y: auto;  /* Active le défilement vertical */
 }
 
 /* Tableau */
@@ -107,14 +107,6 @@
     background-color: #a87e3d;
 }
 
-/* Responsive : 2 onglets par ligne sur petits écrans */
-@media (max-width: 600px) {
-    .promo-tab {
-        flex: 1 0 45%;
-    }
-}
-
-
 /* Pagination */
 .pagination {
     display: flex;
@@ -144,4 +136,17 @@
     background-color: #c09f6a;
     color: white;
     cursor: default;
+}
+
+/* Responsive : 2 onglets par ligne sur petits écrans */
+@media (max-width: 600px) {
+    .promo-tab {
+        flex: 1 0 45%;
+    }
+    .pagination button {
+        padding: 6px 10px;
+    }
+    .etudiants-scroll {
+        max-height: 400px;  /* Ajustement de la hauteur pour petits écrans */
+    }
 }

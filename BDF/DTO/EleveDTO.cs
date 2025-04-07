@@ -22,6 +22,8 @@ public class EleveDTO
     public int FamilleId { get; set; }
     public byte[] Photo { get; set; } = new byte[0];  // Evite NULL
     public int EleveParrainId { get; set; }
+    public EleveDTO EleveParrain {get;set;}
+    public List<EleveDTO> Filleuls {get;set;}
     /* public EleveDTO(Eleve x) 
     {
         Id=x.Id;
@@ -51,6 +53,7 @@ public class EleveDTO
         FamilleId = x.Famille != null ? x.Famille.Id : 0;  // Évite NULL
         Photo = x.Photo ?? new byte[0];  // Évite NULL
         EleveParrainId = x.EleveParrain != null ? x.EleveParrain.Id : 0;  // Évite NULL
+        EleveParrain=x.EleveParrain != null ? new EleveDTO(x.EleveParrain) : null;
     }
 
 

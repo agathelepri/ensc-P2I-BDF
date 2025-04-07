@@ -121,21 +121,34 @@ public async Task<IActionResult> GetElevesByPromotion(int promotionId)
     var eleves = await _context.Eleves
         .Where(e => e.PromotionId == promotionId)
         .Include(e => e.EleveParrain)
+        .Select(e => new EleveDTO(e))
         .ToListAsync();
+    /* var eleves = await _context.Eleves
+        .Where(e => e.PromotionId == promotionId)
+        .Include(e => e.EleveParrain)
+        .ToListAsync(); */
 
     var allFilleuls = await _context.Eleves
         .Include(e => e.EleveParrain)
         .Where(e => e.EleveParrain != null)
+        .Select(e => new EleveDTO(e))
         .ToListAsync();
 
-    var result = eleves.Select(e =>
+        eleves.ForEach(e =>
+    {
+        e.Filleuls = allFilleuls
+            .Where(f => f.EleveParrain?.Id == e.Id)
+            .ToList();
+    });
+
+    /*var result = eleves.Select(e =>
     {
         var filleuls = allFilleuls
             .Where(f => f.EleveParrain?.Id == e.Id)
             .Select(f => new { f.Nom, f.Prenom })
             .ToList();
 
-        return new
+       /*  return new
         {
             e.Id,
             e.Nom,
@@ -144,10 +157,10 @@ public async Task<IActionResult> GetElevesByPromotion(int promotionId)
             Affichage = promotionId == 1
                 ? (object)filleuls // liste de filleuls
                 : (e.EleveParrain != null ? new { e.EleveParrain.Nom, e.EleveParrain.Prenom } : null)
-        };
-    });
+        }; 
+    });*/
 
-    return Ok(result);
+    return Ok(eleves);
 }
 [HttpGet("filleuls/{parrainId}")]
 public async Task<IActionResult> GetFilleuls(int parrainId)

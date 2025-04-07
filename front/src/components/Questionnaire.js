@@ -27,6 +27,7 @@ const Questionnaire = () => {
 
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId");
+        console.log("User ID récupéré du localStorage :", storedUserId);
         if (!storedUserId) {
             alert("Vous devez être connecté pour accéder au questionnaire.");
             navigate("/");
@@ -86,7 +87,7 @@ const Questionnaire = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...formattedData,
-                    eleve: userId, // Envoie bien un `int`
+                    eleveId: userId, // Envoie bien un `int`
                 }),
             });
 
