@@ -229,6 +229,7 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
 
     var eleve = await _context.Eleves
         .Include(e => e.EleveParrain)
+        .Include(e => e.Famille)
         .FirstOrDefaultAsync(e => e.Id == id);
 
     if (eleve == null)
@@ -236,7 +237,7 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
         return NotFound();
     }
 
-    // Mise à jour des champs simples
+    // Mise à jour des champs
     eleve.Nom = eleveDTO.Nom;
     eleve.Prenom = eleveDTO.Prenom;
     eleve.Login = eleveDTO.Login;
@@ -258,7 +259,7 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
     }
     catch (DbUpdateConcurrencyException)
     {
-        if (!_context.Eleves.Any(m => m.Id == id))
+        if (!_context.Eleves.Any(e => e.Id == id))
             return NotFound();
         else
             throw;
@@ -266,6 +267,7 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
 
     return NoContent();
 }
+
 
     
     // Supprimer un élève
