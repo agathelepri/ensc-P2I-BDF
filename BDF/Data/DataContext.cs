@@ -1,3 +1,6 @@
+// Ce fichier configure la base de données avec Entity Framework Core.
+// Il déclare les DbSet pour chaque entité (Eleve, Famille, Promotion, Questionnaire, Voeu).
+// Il utilise SQLite comme base de données locale, avec un comportement optimisé pour la lecture.
 
 using Microsoft.EntityFrameworkCore;
 

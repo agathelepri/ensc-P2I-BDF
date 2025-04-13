@@ -1,3 +1,8 @@
+// Ce contrôleur gère les promotions d’élèves :
+// - Création, consultation, mise à jour et suppression d’une promotion
+// - Permet également de récupérer toutes les années de promotion pour déterminer l’année la plus récente
+// Utilisé notamment pour identifier les filleuls (promo la plus récente) et les parrains (promo précédente).
+
 using BDF.Data; 
 /* using BDF.DTO; */
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +34,6 @@ public class PromotionController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<PromotionDTO>> GetPromotion(int id)
     {
-        // Find course and related list
-        // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
-        // SingleOrDefaultAsync() is a safer choice here
         var promotion = await _context.Promotions.SingleOrDefaultAsync(t => t.Id == id);
 
         if (promotion == null)
@@ -41,6 +43,7 @@ public class PromotionController : ControllerBase
 
         return new PromotionDTO(promotion);
     }
+
     [HttpGet("promotions")]
 public async Task<IActionResult> GetPromotion()
 {

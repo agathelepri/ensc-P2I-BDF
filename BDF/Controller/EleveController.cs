@@ -1,3 +1,10 @@
+// Ce contrôleur gère toutes les opérations liées aux élèves :
+// - Création, modification, suppression d'élève
+// - Connexion avec gestion de mot de passe (haché)
+// - Affectation du parrain et de la famille
+// - Récupération des filleuls pour un parrain donné
+// Il permet aussi de récupérer les élèves par promotion et de vérifier l'état de connexion.
+
 using BDF.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -91,42 +98,17 @@ public class EleveController : ControllerBase
         return Ok(new { message = "Mot de passe enregistré avec succès !", userId = eleve.Id });
     }
 
-/*     // Connexion : Vérification sécurisée du mot de passe et génération d'un token JWT
-    [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] CheckUserDTO eleveDTO)
-    {
-        var eleve = await _context.Eleves.FirstOrDefaultAsync(e => e.Login == eleveDTO.Login);
 
-        if (eleve == null)
-        {
-            return NotFound(new { error = "Utilisateur non trouvé." });
-        }
-
-        // Vérification du mot de passe haché
-        if (eleve.MDP != HashPassword(eleveDTO.MDP))
-        {
-            return Unauthorized(new { error = "Mot de passe incorrect." });
-        }
-
-        // Générer un token JWT
-        var token = GenerateJwtToken(eleve);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { success = true, userId = eleve.Id, token });
-        
-    } */
     [HttpGet("promotion/{promotionId}")]
 public async Task<IActionResult> GetElevesByPromotion(int promotionId)
 {
     var eleves = await _context.Eleves
         .Where(e => e.PromotionId == promotionId)
         .Include(e => e.EleveParrain)
+        .Include(e => e.Promotion)
+        .Include(e => e.Famille)
         .Select(e => new EleveDTO(e))
         .ToListAsync();
-    /* var eleves = await _context.Eleves
-        .Where(e => e.PromotionId == promotionId)
-        .Include(e => e.EleveParrain)
-        .ToListAsync(); */
 
     var allFilleuls = await _context.Eleves
         .Include(e => e.EleveParrain)
@@ -134,34 +116,10 @@ public async Task<IActionResult> GetElevesByPromotion(int promotionId)
         .Select(e => new EleveDTO(e))
         .ToListAsync();
 
-        eleves.ForEach(e =>
-    {
-        e.Filleuls = allFilleuls
-            .Where(f => f.EleveParrain?.Id == e.Id)
-            .ToList();
-    });
-
-    /*var result = eleves.Select(e =>
-    {
-        var filleuls = allFilleuls
-            .Where(f => f.EleveParrain?.Id == e.Id)
-            .Select(f => new { f.Nom, f.Prenom })
-            .ToList();
-
-       /*  return new
-        {
-            e.Id,
-            e.Nom,
-            e.Prenom,
-            e.Login,
-            Affichage = promotionId == 1
-                ? (object)filleuls // liste de filleuls
-                : (e.EleveParrain != null ? new { e.EleveParrain.Nom, e.EleveParrain.Prenom } : null)
-        }; 
-    });*/
-
+             
     return Ok(eleves);
 }
+
 [HttpGet("filleuls/{parrainId}")]
 public async Task<IActionResult> GetFilleuls(int parrainId)
 {
@@ -195,7 +153,7 @@ public async Task<IActionResult> Login([FromBody] CheckUserDTO eleveDTO)
         return Unauthorized(new { error = "Mot de passe incorrect." });
     }
 
-    // Vérifie si l'utilisateur est Admin (Ex: le compte "admin")
+    // Vérifie si l'utilisateur est Admin 
     bool isAdmin = eleve.Login.ToLower() == "admin";
     _context.Entry(eleve).State = EntityState.Modified;
     await _context.SaveChangesAsync();
@@ -203,7 +161,6 @@ public async Task<IActionResult> Login([FromBody] CheckUserDTO eleveDTO)
     return Ok(new { success = true, userId = eleve.Id, role = isAdmin ? "admin" : "user" });
 }
 
-    
 
     // Ajouter un nouvel élève
     [HttpPost]
@@ -218,39 +175,48 @@ public async Task<IActionResult> Login([FromBody] CheckUserDTO eleveDTO)
 
         return CreatedAtAction(nameof(GetEleve), new { id = eleve.Id }, new EleveDTO(eleve));
     }
-
-[HttpPut("{id}")]
+   [HttpPut("{id}")]
 public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
 {
-    if (id != eleveDTO.Id)
-    {
-        return BadRequest();
-    }
+    if (eleveDTO == null || id != eleveDTO.Id)
+        return BadRequest("Identifiant invalide ou données manquantes.");
 
     var eleve = await _context.Eleves
-        .Include(e => e.EleveParrain)
+        .Include(e => e.Promotion)
         .Include(e => e.Famille)
+        .Include(e => e.EleveParrain)
         .FirstOrDefaultAsync(e => e.Id == id);
 
     if (eleve == null)
-    {
-        return NotFound();
-    }
+        return NotFound($"Aucun élève trouvé avec l'ID {id}.");
 
-    // Mise à jour des champs
+    // Mise à jour des champs simples
     eleve.Nom = eleveDTO.Nom;
     eleve.Prenom = eleveDTO.Prenom;
     eleve.Login = eleveDTO.Login;
+    eleve.MDP = eleveDTO.MDP;
+    eleve.Photo = eleveDTO.Photo;
 
-    // Mise à jour du parrain
+    // Mise à jour des relations
+    if (eleveDTO.PromotionId != 0)
+    {
+        var promotion = await _context.Promotions.FindAsync(eleveDTO.PromotionId);
+        if (promotion == null) return BadRequest("Promotion non trouvée.");
+        eleve.Promotion = promotion;
+    }
+
+    if (eleveDTO.FamilleId != 0)
+    {
+        var famille = await _context.Familles.FindAsync(eleveDTO.FamilleId);
+        if (famille == null) return BadRequest("Famille non trouvée.");
+        eleve.Famille = famille;
+    }
+
     if (eleveDTO.EleveParrainId != 0)
     {
         var parrain = await _context.Eleves.FindAsync(eleveDTO.EleveParrainId);
+        if (parrain == null) return BadRequest("Parrain non trouvé.");
         eleve.EleveParrain = parrain;
-    }
-    else
-    {
-        eleve.EleveParrain = null;
     }
 
     try
@@ -260,7 +226,7 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
     catch (DbUpdateConcurrencyException)
     {
         if (!_context.Eleves.Any(e => e.Id == id))
-            return NotFound();
+            return NotFound($"Impossible de mettre à jour : l'élève avec l'ID {id} n'existe plus.");
         else
             throw;
     }

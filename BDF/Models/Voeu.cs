@@ -1,3 +1,7 @@
+// Ce modèle représente un voeu de parrainage exprimé par un élève.
+// Il relie un élève à un autre (celui qu’il choisit comme parrain ou filleul), en précisant la promotion et le rang du voeu.
+// Il est utilisé dans l’algorithme de matching pour prioriser les correspondances.
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Voeu 

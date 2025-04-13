@@ -1,3 +1,8 @@
+// Ce contrôleur permet la gestion complète des familles :
+// - Création, modification, suppression et consultation des familles
+// - Chaque famille a un nom et une couleur 
+// Utilisé pour les classements et l’affichage des couleurs associées à chaque élève.
+
 using BDF.Data; 
 /* using BDF.DTO; */
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +34,7 @@ public class FamilleController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<FamilleDTO>> GetFamille(int id)
     {
-        // Find course and related list
-        // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
-        // SingleOrDefaultAsync() is a safer choice here
+
         var famille = await _context.Familles.SingleOrDefaultAsync(t => t.Id == id);
 
         if (famille == null)
@@ -53,29 +56,6 @@ public class FamilleController : ControllerBase
 
         return CreatedAtAction(nameof(GetFamille), new { id = famille.Id }, new FamilleDTO(famille));
     }
-[HttpGet("classement")]
-public async Task<IActionResult> GetClassement()
-{
-    var classement = await _context.Familles
-        .OrderByDescending(c => c.Points) // Trie par points décroissants
-        .Select(c => new
-        {
-            c.Id,
-            c.Nom,
-            c.Points,
-            Couleur = c.CouleurHexa // Assure-toi que ce champ existe bien
-        })
-        .ToListAsync();
-
-    if (classement.Count == 0)
-    {
-        return NotFound("Aucune donnée trouvée.");
-    }
-    await _context.SaveChangesAsync();
-
-    return Ok(classement);
-}
-
 
     // PUT: api/famille/id
     [HttpPut("{id}")]

@@ -1,3 +1,8 @@
+// Ce contrôleur gère les vœux de parrainage faits par les élèves :
+// - Chaque voeu associe un élève à un autre avec un rang de priorité (NumVoeux)
+// - Il permet de créer, consulter, modifier et supprimer des vœux
+// Ces informations sont essentielles pour l’algorithme de matching.
+
 using BDF.Data; 
 /* using BDF.DTO; */
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +25,6 @@ public class VoeuController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VoeuDTO>>> GetVoeux()
     {
-        // Get courses and related lists
         var voeux = _context.Voeux.Include(x=>x.Eleve)
         .Include(x=>x.Promotion)
         .Include(x=>x.EleveChoisi).Select(x => new VoeuDTO(x));
@@ -31,9 +35,6 @@ public class VoeuController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<VoeuDTO>> GetVoeu(int id)
     {
-        // Find course and related list
-        // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
-        // SingleOrDefaultAsync() is a safer choice here
         var voeu = await _context.Voeux.SingleOrDefaultAsync(t => t.Id == id);
 
         if (voeu == null)
@@ -44,18 +45,6 @@ public class VoeuController : ControllerBase
         return new VoeuDTO(voeu);
     }
 
-    // POST: api/voeu
-    /* [HttpPost]
-    public async Task<ActionResult<VoeuDTO>> PostVoeu(VoeuDTO voeuDTO)
-    {
-        Voeu voeu = new(voeuDTO);
-
-        _context.Voeux.Add(voeu);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetVoeu), new { id = voeu.Id }, new VoeuDTO(voeu));
-    } */
-    // POST: api/voeu
 [HttpPost]
 public async Task<IActionResult> PostVoeu(VoeuDTO dto)
 {

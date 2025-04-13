@@ -1,3 +1,7 @@
+// Ce modèle représente une famille, utilisée pour les classements.
+// Une famille possède un nom, une couleur (en hexadécimal) et un nombre de points cumulés.
+// Elle est liée à plusieurs élèves via une relation un-à-plusieurs.
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Famille 

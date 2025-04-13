@@ -1,3 +1,7 @@
+// Ce modèle contient les réponses au questionnaire rempli par un élève.
+// Il permet d’enrichir le profil de l’élève pour un matching plus pertinent basé sur les affinités (soiree, passe-temps, etc.).
+// Chaque questionnaire est lié à un élève via une clé étrangère.
+
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,12 +10,10 @@ public class Questionnaire
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-
-    // Clé étrangère explicite pour Eleve
     public int EleveId { get; set; }
 
     [ForeignKey("EleveId")]
-    public Eleve? Eleve { get; set; } // Relation avec Eleve
+    public Eleve? Eleve { get; set; } 
 
     public string? Provenance { get; set; } = null!;
     public string? Astro { get; set; } = null!;
@@ -26,10 +28,8 @@ public class Questionnaire
     public string? Relation { get; set; } = null!;
     public string? Preference { get; set; } = null!;
 
-    // Constructeur par défaut requis par Entity Framework
     public Questionnaire() {}
 
-    // Constructeur basé sur QuestionnaireDTO
     public Questionnaire(QuestionnaireDTO questionnaireDTO)
     {
         Provenance = questionnaireDTO.Provenance;

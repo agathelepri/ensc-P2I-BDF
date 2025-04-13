@@ -1,3 +1,8 @@
+// Ce contrôleur gère les réponses aux questionnaires des élèves :
+// - Création, consultation, modification et suppression d’un questionnaire
+// - Permet de filtrer les questionnaires par ID ou par élève
+// Ces données sont utilisées pour améliorer le matching grâce aux affinités (soiree, passe-temps).
+
 using BDF.Data; 
 /* using BDF.DTO; */
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +21,7 @@ public class QuestionnaireController : ControllerBase
         _context = context;
     }
 
-    // GET: api/questionnaire
-    /* [HttpGet]
-    public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaires()
-    {
-        // Get courses and related lists
-        var questionnaires = _context.Questionnaires.Select(x => new QuestionnaireDTO(x));
-        return await questionnaires.ToListAsync();
-    } */
+   
     [HttpGet]
     public async Task<ActionResult<IEnumerable<QuestionnaireDTO>>> GetQuestionnaires()
     {
@@ -40,9 +38,6 @@ public class QuestionnaireController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<QuestionnaireDTO>> GetQuestionnaire(int id)
     {
-        // Find course and related list
-        // SingleAsync() throws an exception if no course is found (which is possible, depending on id)
-        // SingleOrDefaultAsync() is a safer choice here
         var questionnaire = await _context.Questionnaires
         .Include(q => q.Eleve) 
         .SingleOrDefaultAsync(t => t.Id == id);
@@ -72,17 +67,6 @@ public class QuestionnaireController : ControllerBase
     }
 
 
-    // POST: api/questionnaire
-    /* [HttpPost]
-    public async Task<ActionResult<QuestionnaireDTO>> PostQuestionnaire(QuestionnaireDTO questionnaireDTO)
-    {
-        Questionnaire questionnaire = new(questionnaireDTO);
-
-        _context.Questionnaires.Add(questionnaire);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetQuestionnaire), new { id = questionnaire.Id }, new QuestionnaireDTO(questionnaire));
-    } */
     [HttpPost]
 public async Task<IActionResult> PostQuestionnaire([FromBody] QuestionnaireDTO questionnaireDTO)
 {
@@ -103,7 +87,7 @@ public async Task<IActionResult> PostQuestionnaire([FromBody] QuestionnaireDTO q
         // Créer le questionnaire et l'associer à l'élève
         var questionnaire = new Questionnaire
         {
-            EleveId = eleve.Id, // Lier l'élève connecté au questionnaire
+            EleveId = eleve.Id, 
             Provenance = questionnaireDTO.Provenance,
             Astro = questionnaireDTO.Astro,
             Boisson = questionnaireDTO.Boisson,
@@ -128,9 +112,6 @@ public async Task<IActionResult> PostQuestionnaire([FromBody] QuestionnaireDTO q
         return StatusCode(500, $"Erreur serveur : {ex.InnerException?.Message ?? ex.Message}");
     }
 }
-
-
-
 
     // PUT: api/questionnaire/id
     [HttpPut("{id}")]

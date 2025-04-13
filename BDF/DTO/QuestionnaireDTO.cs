@@ -1,7 +1,10 @@
+// Ce DTO regroupe toutes les réponses au questionnaire rempli par un élève.
+// Il est utilisé pour le matching basé sur les affinités (soiree, passe-temps, livres, etc.).
+// Il contient également l’ID de l’élève qui l’a rempli.
+
 public class QuestionnaireDTO
 {
     public int Id {get;set;}
-    /* public EleveDTO Eleve {get;set;} */
     public int EleveId {get;set;}
     public string Provenance {get;set;} = null!;
     public string Astro {get;set;} = null!;

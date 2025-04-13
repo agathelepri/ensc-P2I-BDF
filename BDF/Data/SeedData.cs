@@ -1,3 +1,6 @@
+// Ce fichier permet d’initialiser manuellement la base de données avec des données de test ou par défaut (familles, promotions, élèves...).
+// Il est utilisé au lancement pour peupler la base si besoin et faciliter les tests ou démonstrations de l’application.
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BDF.Data;

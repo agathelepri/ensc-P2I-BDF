@@ -1,18 +1,13 @@
-using System.ComponentModel.DataAnnotations.Schema;
+// Ce modèle représente un élève dans la base de données.
+// Il contient toutes les informations personnelles (nom, prénom, login, mot de passe),
+// ainsi que ses relations : promotion, famille, parrain (et filleuls via navigation inversée).
+// C’est l’entité centrale du système de parrainage.
 
+using System.ComponentModel.DataAnnotations.Schema;
 public class Eleve
 {
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-   /*  public int Id {get;set;}
-    public string Nom {get;set;} = null!;
-    public string Prenom {get;set;}=null!;
-    public string Login {get;set;}= null!;
-    public string MDP {get;set;} = null!;
-    public Promotion Promotion {get;set;}
-    public Famille Famille {get;set;} = null!;
-    public byte[] Photo { get; set; } = null !;
-    public Eleve EleveParrain {get;set;} = null!; */
     public int Id { get; set; }
     public string Nom { get; set; }
     public string Prenom { get; set; }

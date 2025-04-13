@@ -1,3 +1,6 @@
+// Ce DTO représente une famille de l’école : il contient son nom, sa couleur et ses points.
+// Il est utilisé pour les classements, l’affichage par couleur et la gestion des familles.
+
 public class FamilleDTO 
 {
     public int Id {get;set;}
