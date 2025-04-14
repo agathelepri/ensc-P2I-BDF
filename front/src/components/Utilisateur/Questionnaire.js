@@ -1,3 +1,7 @@
+// Ce composant permet à un élève de remplir son questionnaire de présentation.
+// Les questions sont affichées 2 par 2 avec un système de navigation par page et une barre de progression.
+// Les données sont formatées et envoyées au backend à la soumission.
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Questionnaire.css";
@@ -75,7 +79,6 @@ const Questionnaire = () => {
             return;
         }
 
-        // Convertir les tableaux en `string`
         const formattedData = Object.keys(formData).reduce((acc, key) => {
             acc[key] = Array.isArray(formData[key]) ? formData[key].join(", ") : formData[key];
             return acc;
@@ -87,7 +90,7 @@ const Questionnaire = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...formattedData,
-                    eleveId: userId, // Envoie bien un `int`
+                    eleveId: userId, 
                 }),
             });
 

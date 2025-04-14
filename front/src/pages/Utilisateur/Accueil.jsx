@@ -1,5 +1,5 @@
 import React from 'react';
-import Accueil from '../components/Acceuil';
+import Accueil from '../../components/Utilisateur/Acceuil';
 
 const AccueilPage = () => {
     return (

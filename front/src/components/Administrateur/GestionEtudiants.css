@@ -1,4 +1,3 @@
-/* Conteneur principal */
 .gestion-container {
     max-width: 1000px;
     margin: 40px auto;
@@ -9,7 +8,6 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Titre principal */
 .gestion-container h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -17,7 +15,6 @@
     color: #4a3c2f;
 }
 
-/* Onglets promotions : 4 par ligne */
 .promo-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -48,19 +45,16 @@
     background-color: #e85a5a;
 }
 
-/* Liste des étudiants */
 .etudiants-liste {
     margin-top: 20px;
     overflow-x: auto;
 }
 
-/* Scroll vertical pour les élèves */
 .etudiants-scroll {
-    max-height: 500px; /* Hauteur maximale pour activer le défilement */
-    overflow-y: auto;  /* Active le défilement vertical */
+    max-height: 500px; 
+    overflow-y: auto;  
 }
 
-/* Tableau */
 .etudiants-liste table {
     width: 100%;
     border-collapse: collapse;
@@ -82,7 +76,6 @@
     font-weight: bold;
 }
 
-/* Input modifiables */
 .etudiants-liste input[type="text"] {
     width: 100%;
     padding: 6px 8px;
@@ -91,7 +84,6 @@
     font-size: 15px;
 }
 
-/* Bouton enregistrer */
 .btn-save {
     padding: 6px 12px;
     background-color: #c09f6a;
@@ -107,7 +99,6 @@
     background-color: #a87e3d;
 }
 
-/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
@@ -138,7 +129,6 @@
     cursor: default;
 }
 
-/* Responsive : 2 onglets par ligne sur petits écrans */
 @media (max-width: 600px) {
     .promo-tab {
         flex: 1 0 45%;
@@ -147,6 +137,6 @@
         padding: 6px 10px;
     }
     .etudiants-scroll {
-        max-height: 400px;  /* Ajustement de la hauteur pour petits écrans */
+        max-height: 400px;  
     }
 }

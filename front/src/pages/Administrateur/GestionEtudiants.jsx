@@ -1,5 +1,5 @@
 import React from 'react'
-import GestionEtudiant from '../components/GestionEtudiant';
+import GestionEtudiant from '../../components/Administrateur/GestionEtudiant';
 
 const GestionEtu = () => {
   return (

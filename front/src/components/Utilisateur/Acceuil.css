@@ -42,7 +42,7 @@ button {
 button:hover {
     background: #5a524a;
 }
-/* Positionne le texte en haut à droite */
+
 .logout-text {
     position: absolute;
     top: 20px;

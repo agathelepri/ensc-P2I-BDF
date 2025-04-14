@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ClassementAdmin from '../components/ClassementAdmin';
+import ClassementAdmin from '../../components/Administrateur/ClassementAdmin';
 
 
 const ClassementAdminPage = () => {

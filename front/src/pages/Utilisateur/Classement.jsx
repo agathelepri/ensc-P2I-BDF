@@ -1,5 +1,5 @@
 import React from 'react';
-import Classement from '../components/Classement';
+import Classement from '../../components/Utilisateur/Classement';
 
 
 const ClassementPage = () => {

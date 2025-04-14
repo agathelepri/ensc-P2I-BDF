@@ -1,3 +1,7 @@
+// Ce composant permet à l’administrateur de visualiser et modifier les informations des élèves par promotion.
+// Il offre une interface de sélection des promotions, d’édition des champs, et de gestion des parrains pour chaque élève.
+// Il récupère automatiquement les parrains possibles en fonction de l’année de promotion.
+
 import React, { useState, useEffect } from 'react';
 import './GestionEtudiants.css';
 
@@ -71,19 +75,35 @@ const GestionEtudiant = () => {
     };
 
     const handleSave = async (id) => {
+        console.log(parrainsPossibles);
+
         try {
+            const selectedParrain = parrainsPossibles.find(p => p.id === editedEleve.eleveParrainId);
+
+            if (!selectedParrain) {
+                throw new Error("Parrain sélectionné introuvable");
+            }
+
+            const updatedEleve = {
+                ...editedEleve,
+                familleId: selectedParrain.familleId
+            };
+
             const response = await fetch(`http://localhost:5166/api/eleve/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(editedEleve)
+                body: JSON.stringify(updatedEleve)
             });
+
             if (!response.ok) throw new Error("Erreur lors de la mise à jour");
-            setEleves(eleves.map(et => (et.id === id ? editedEleve : et)));
+
+            setEleves(eleves.map(et => (et.id === id ? updatedEleve : et)));
             setIsEditing(null);
         } catch (error) {
             console.error("Erreur:", error);
         }
     };
+
 
     const indexOfLast = currentPage * itemsPerPage;
     const indexOfFirst = indexOfLast - itemsPerPage;

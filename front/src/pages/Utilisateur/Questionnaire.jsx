@@ -1,5 +1,5 @@
 import React from 'react';
-import Questionnaire from '../components/Questionnaire';
+import Questionnaire from '../../components/Utilisateur/Questionnaire';
 
 const QuestionnairePage = () => {
     return (

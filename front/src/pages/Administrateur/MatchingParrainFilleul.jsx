@@ -1,5 +1,5 @@
 import React from 'react'
-import MatchingParrainFilleul from '../components/MatchingParrainFilleul';
+import MatchingParrainFilleul from '../../components/Administrateur/MatchingParrainFilleul';
 
 const Match = () => {
   return (

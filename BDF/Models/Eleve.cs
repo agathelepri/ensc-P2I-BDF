@@ -16,6 +16,7 @@ public class Eleve
     public int PromotionId {get;set;}
     [ForeignKey("PromotionId")]
     public Promotion Promotion { get; set; }
+    public int? FamilleId { get; set; }
     [ForeignKey("FamilleId")]
     public Famille? Famille { get; set; }
     public byte[]? Photo { get; set; }

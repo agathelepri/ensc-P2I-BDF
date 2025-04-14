@@ -1,3 +1,7 @@
+// Ce composant gère la page de connexion pour tous les utilisateurs (élèves et admin).
+// Il vérifie si l’utilisateur se connecte pour la première fois, et lui permet alors de définir un mot de passe.
+// Sinon, il effectue une authentification standard et redirige selon le rôle (utilisateur ou administrateur).
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FormulaireConnexion.css';
@@ -15,7 +19,6 @@ const FormulaireConnexion = () => {
         try {
             console.log("Tentative de connexion avec", identifiant);
 
-            // Vérifie si l'utilisateur existe
             const checkResponse = await fetch('http://localhost:5166/api/eleve/check-user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

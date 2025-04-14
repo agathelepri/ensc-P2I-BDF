@@ -210,15 +210,22 @@ public async Task<IActionResult> PutEleve(int id, EleveDTO eleveDTO)
         var famille = await _context.Familles.FindAsync(eleveDTO.FamilleId);
         if (famille == null) return BadRequest("Famille non trouvée.");
         eleve.Famille = famille;
+        eleve.FamilleId = famille.Id;
     }
 
     if (eleveDTO.EleveParrainId != 0)
     {
         var parrain = await _context.Eleves.FindAsync(eleveDTO.EleveParrainId);
-        if (parrain == null) return BadRequest("Parrain non trouvé.");
-        eleve.EleveParrain = parrain;
-    }
+    if (parrain == null)
+        return BadRequest("Parrain non trouvé.");
 
+    eleve.EleveParrainId = eleveDTO.EleveParrainId; 
+}
+else
+{
+    eleve.EleveParrainId = null; 
+}
+_context.Entry(eleve).State=EntityState.Modified;
     try
     {
         await _context.SaveChangesAsync();
